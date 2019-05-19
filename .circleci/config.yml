@@ -1,0 +1,28 @@
+version: 2 # use CircleCI 2.0
+jobs:
+  build:
+    working_directory: ~/circleci-maze-crawler # directory where steps will run
+
+    docker: # run the steps with Docker
+      - image: circleci/openjdk:8-jdk # vanilla OpenJDK 8
+
+    steps:
+      - checkout # check out source code to working directory
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: circleci-maze-crawler-{{ checksum "pom.xml" }}
+
+      - run: mvn dependency:go-offline # gets the project dependencies
+
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/.m2
+          key: circleci-maze-crawler-{{ checksum "pom.xml" }}
+
+      - run: mvn package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+#      - store_artifacts:
+#          path: target/maze-crawler-0.0.1-SNAPSHOT.jar

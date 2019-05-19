@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;

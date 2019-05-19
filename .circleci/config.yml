@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/circleci-maze-crawler # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: circleci/openjdk:8u212 # OpenJDK 8u212
+      - image: circleci/openjdk:8u212-jdk-stretch # OpenJDK 8u212
 
     steps:
       - checkout # check out source code to working directory

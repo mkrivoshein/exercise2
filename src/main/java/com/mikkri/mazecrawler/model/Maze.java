@@ -25,6 +25,20 @@ public class Maze {
         this.end = end;
     }
 
+    /**
+     * Creates a deep copy of the original maze
+     */
+    public static Maze copyOf(Maze maze) {
+        char[][] copyOfData = new char[maze.data.length][];
+        for (int index = 0; index < maze.data.length; index++) {
+            copyOfData[index] = maze.data[index].clone();
+        }
+        int[] copyOfStart = maze.start.clone();
+        int[] copyOfEnd = maze.end.clone();
+
+        return new Maze(copyOfData, copyOfStart, copyOfEnd);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

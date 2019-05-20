@@ -10,10 +10,13 @@ import javax.annotation.Nullable;
 import java.util.Deque;
 import java.util.LinkedList;
 
+import static com.mikkri.mazecrawler.model.Maze.*;
+
 @Component
 public class MazeSolver {
     @Nonnull
-    public MazeAnswer solveMaze(@Nonnull Maze maze) {
+    public MazeAnswer solveMaze(@Nonnull Maze mazeToSolve) {
+        Maze maze = copyOf(mazeToSolve);
         MazeSolverStep[][] mazeMap = new MazeSolverStep[maze.rowCount()][];
         for (int row = 0; row < mazeMap.length; row++) {
             mazeMap[row] = new MazeSolverStep[maze.rowSize(row)];
@@ -34,10 +37,10 @@ public class MazeSolver {
 
             char currentValue = maze.getValue(x, y);
 
-            if (currentValue == Maze.END) {
+            if (currentValue == END) {
                 // found the answer
                 solutionFound = true;
-            } else if (currentValue != Maze.START && currentValue != Maze.WALL) {
+            } else if (currentValue != START && currentValue != WALL) {
                 MazeSolverStep currentMapValue = mazeMap[y][x];
 
                 if (currentMapValue == null || currentMapValue.getCounter() > step.getCounter()) {
@@ -52,7 +55,7 @@ public class MazeSolver {
             // unroll the quickest path
             step = step.getPreviousStep(); // one step back from the end
             for ( ; step != null; step = step.getPreviousStep()) {
-                maze.setValue(step.getX(), step.getY(), Maze.PATH);
+                maze.setValue(step.getX(), step.getY(), PATH);
             }
 
             return new MazeAnswer(maze.toStringList(), null);

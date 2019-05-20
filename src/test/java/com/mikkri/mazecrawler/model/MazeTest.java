@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.mikkri.mazecrawler.TestMazes.SIMPLE_MAZE;
 import static com.mikkri.mazecrawler.TestMazes.unsolvableMaze;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -49,4 +50,16 @@ public class MazeTest {
         assertThat(maze.getValue(1, 2), is('.'));
     }
 
+    @Test
+    public void copyOfMakesDeepCopyOfMazeData() throws CloneNotSupportedException {
+        Maze maze1 = new MazeParser().parseMaze(unsolvableMaze());
+        char originalValue = maze1.getValue(1, 1);
+
+        Maze maze2 = Maze.copyOf(maze1);
+
+        maze1.setValue(1, 1, Maze.PATH);
+
+        assertThat(maze2.getValue(1, 1), is(originalValue));
+        assertThat(maze2, is(not(maze1)));
+    }
 }

@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +27,7 @@ public class MazeCrawlerRunner implements CommandLineRunner {
             throw new IllegalArgumentException("Exactly one argument is expected");
         }
 
-        Path inputPath = Paths.get(URI.create(args[0]));
+        Path inputPath = Paths.get(args[0]);
 
         // assuming that throwing an exception is ok if file is not present
         List<String> input = Files.readAllLines(inputPath);

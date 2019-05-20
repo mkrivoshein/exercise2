@@ -1,14 +1,15 @@
 package com.mikkri.mazecrawler.model;
 
-import com.google.common.collect.ImmutableList;
-
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class MazeAnswer {
+    @Nullable
     private final List<String> answerText;
+    @Nullable
     private final List<String> errors;
 
-    public MazeAnswer(List<String> answerText, List<String> errors) {
+    public MazeAnswer(@Nullable List<String> answerText, @Nullable List<String> errors) {
         this.answerText = answerText;
         this.errors = errors;
     }

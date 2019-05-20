@@ -66,4 +66,20 @@ public class Maze {
 
         return result.toString();
     }
+
+    public int getStartX() {
+        return start[1];
+    }
+
+    public int getStartY() {
+        return start[0];
+    }
+
+    public int getValue(int x, int y) {
+        return data[y][x];
+    }
+
+    public void setValue(int x, int y, int value) {
+        data[y][x] = value;
+    }
 }

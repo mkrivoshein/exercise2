@@ -76,6 +76,14 @@ public class Maze {
         return start[0];
     }
 
+    public int getEndX() {
+        return end[1];
+    }
+
+    public int getEndY() {
+        return end[0];
+    }
+
     public char getValue(int x, int y) {
         return data[y][x];
     }

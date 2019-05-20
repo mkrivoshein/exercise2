@@ -35,6 +35,16 @@ public class MazeTest {
     }
 
     @Test
+    public void testGetEndX() {
+        assertThat(SIMPLE_MAZE.getEndX(), is(2));
+    }
+
+    @Test
+    public void testGetEndY() {
+        assertThat(SIMPLE_MAZE.getEndY(), is(3));
+    }
+
+    @Test
     public void getValueTest() {
         Maze maze = unsolvableMaze();
         assertThat(maze.getValue(0, 0), is(Maze.WALL));

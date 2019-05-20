@@ -10,7 +10,12 @@ import javax.annotation.Nullable;
 import java.util.Deque;
 import java.util.LinkedList;
 
-import static com.mikkri.mazecrawler.model.Maze.*;
+import static com.google.common.base.MoreObjects.toStringHelper;
+import static com.mikkri.mazecrawler.model.Maze.END;
+import static com.mikkri.mazecrawler.model.Maze.PATH;
+import static com.mikkri.mazecrawler.model.Maze.START;
+import static com.mikkri.mazecrawler.model.Maze.WALL;
+import static com.mikkri.mazecrawler.model.Maze.copyOf;
 
 @Component
 public class MazeSolver {
@@ -20,20 +25,34 @@ public class MazeSolver {
         return task.solveMaze();
     }
 
+    /**
+     * Maze solver task starts crawling through the maze from the start location and iterates through
+     * potential next steps in order of their distance from the start location. This way it finds the quickest path
+     * first and doesn't put any effort into finding longer paths. If there are multiple paths of the same length
+     * it picks the first it finds.
+     *
+     * This maze crawler respects walls, however if walls have gaps it can step outside as far as maze boundaries permit.
+     *
+     * To use this class, instantiate an instance with a maze to solve and then call <code>solveMaze()</code> once.
+     *
+     * This implementation assumes that the maze itself is reasonably small and fits into memory easily.
+     */
     static class MazeSolverTask {
         private final Maze maze;
         private final MazeSolverStep[][] mazeMap;
         private final MazeSolverQueue mazeSolverQueue = new MazeSolverQueue();
 
         MazeSolverTask(Maze maze) {
-            // we will use our copy of the maze to plot the path, so need to make a copy
-            this.maze = copyOf(maze);
+            this.maze = copyOf(maze); // eager to clone input data to avoid potential side effects
             this.mazeMap = initializeMazeMap(maze);
         }
 
+        @Nonnull
         MazeAnswer solveMaze() {
             prepareFirstSteps();
+
             boolean solutionFound = crawlThroughTheMaze();
+
             if (solutionFound) {
                 updateMazeWithPath();
                 return new MazeAnswer(getMaze().toStringList(), null);
@@ -70,6 +89,7 @@ public class MazeSolver {
             boolean solutionFound = false;
             MazeSolverStep step;
 
+            // this loop works a bit like recursion but it is designed to inspect locations closer to the start first
             while (!solutionFound && !mazeSolverQueue.isEmpty()) {
                 step = mazeSolverQueue.removeStep();
 
@@ -97,6 +117,11 @@ public class MazeSolver {
             return solutionFound;
         }
 
+        /**
+         * Uses <code>Maze.PATH</code> symbols to plot the path in the maze.
+         * Since it is called after <code>crawlThroughTheMaze()</code> it should be ok to modify <code>maze</code> instead
+         * of making a copy and changing data there.
+         */
         private void updateMazeWithPath() {
             // unroll the quickest path
             MazeSolverStep finalMazeSolverStep = getFinalMazeSolverStep();
@@ -111,6 +136,10 @@ public class MazeSolver {
             }
         }
 
+        /**
+         * Prepare steps up, down, left, right from the current location described by <code>previousStep</code>.
+         * This method adds new steps to the queue.
+         */
         private void prepareMoreSteps(@Nonnull Maze maze, MazeSolverQueue mazeSolverQueue, MazeSolverStep previousStep) {
             int x = previousStep.getX();
             int y = previousStep.getY();
@@ -118,6 +147,10 @@ public class MazeSolver {
             prepareMoreSteps(maze, mazeSolverQueue, x, y, previousStep);
         }
 
+        /**
+         * Prepare steps up, down, left, right from (x,y).
+         * This method adds new steps to the queue.
+         */
         private void prepareMoreSteps(@Nonnull Maze maze, MazeSolverQueue mazeSolverQueue, int x, int y, @Nullable MazeSolverStep previousStep) {
             if (maze.isValidLocation(x + 1, y)) {
                 mazeSolverQueue.addStep(new MazeSolverStep(x + 1, y, previousStep));
@@ -174,6 +207,14 @@ class MazeSolverStep {
     @Nullable
     MazeSolverStep getPreviousStep() {
         return previousStep;
+    }
+
+    @Override
+    public String toString() {
+        return toStringHelper(this)
+                .add("x", x)
+                .add("y", y)
+                .toString();
     }
 }
 

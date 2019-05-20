@@ -44,9 +44,9 @@ public class MazeTest {
     public void setValueTest() {
         Maze maze = new MazeParser().parseMaze(unsolvableMaze());
 
-        maze.setValue(1, 2, 352);
+        maze.setValue(1, 2, '.');
 
-        assertThat(maze.getValue(1, 2), is(352));
+        assertThat(maze.getValue(1, 2), is('.'));
     }
 
 }

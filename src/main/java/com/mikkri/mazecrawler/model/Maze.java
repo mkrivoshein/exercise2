@@ -1,14 +1,17 @@
 package com.mikkri.mazecrawler.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Maze {
-    public static final int START = 0;
-    public static final int END = Integer.MAX_VALUE;
-    public static final int UNKNOWN = Integer.MIN_VALUE;
-    public static final int WALL = -1;
+    public static final char START = 'S';
+    public static final char END = 'E';
+    public static final char WALL = '#';
+    public static final char SPACE = ' ';
+    public static final char PATH = '.';
 
-    private final int[][] data;
+    private final char[][] data;
 
     /** {x,y} array representing the location of the start */
     private final int[] start;
@@ -16,7 +19,7 @@ public class Maze {
     /** {x,y} array representing the location of the end */
     private final int[] end;
 
-    public Maze(int[][] data, int[] start, int[] end) {
+    public Maze(char[][] data, int[] start, int[] end) {
         this.data = data;
         this.start = start;
         this.end = end;
@@ -41,25 +44,9 @@ public class Maze {
     public String toString() {
         StringBuilder result = new StringBuilder("Maze\n");
 
-        for (int[] row : data) {
-            for (int element : row) {
-                switch (element) {
-                    case START :
-                        result.append('S');
-                        break;
-                    case END:
-                        result.append('E');
-                        break;
-                    case UNKNOWN:
-                        result.append(' ');
-                        break;
-                    case WALL:
-                        result.append('#');
-                        break;
-                    default:
-                        result.append(element);
-                }
-                result.append('\t');
+        for (char[] row : data) {
+            for (Object element : row) {
+                result.append(element).append('\t');
             }
             result.append('\n');
         }
@@ -75,11 +62,31 @@ public class Maze {
         return start[0];
     }
 
-    public int getValue(int x, int y) {
+    public char getValue(int x, int y) {
         return data[y][x];
     }
 
-    public void setValue(int x, int y, int value) {
+    public void setValue(int x, int y, char value) {
         data[y][x] = value;
+    }
+
+    public boolean isValidLocation(int x, int y) {
+        return true;
+    }
+
+    public int rowCount() {
+        return data.length;
+    }
+
+    public int rowSize(int row) {
+        return data[row].length;
+    }
+
+    public List<String> toStringList() {
+        List<String> result = new ArrayList<>(data.length);
+        for (char[] row : data) {
+            result.add(String.valueOf(row));
+        }
+        return result;
     }
 }

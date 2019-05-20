@@ -14,7 +14,7 @@ public class MazeParser {
             throw new IllegalArgumentException("Maze cannot be empty");
         }
 
-        int[][] data = new int[lines.size()][];
+        char[][] data = new char[lines.size()][];
 
         int[] start = null;
 
@@ -24,7 +24,7 @@ public class MazeParser {
         for (String line : lines) {
             char[] chars = line.toCharArray();
 
-            int[] row = new int[chars.length];
+            char[] row = new char[chars.length];
 
             for (int index = 0; index < chars.length; index++) {
                 switch (chars[index]) {
@@ -32,7 +32,7 @@ public class MazeParser {
                         row[index] = Maze.WALL;
                         break;
                     case ' ':
-                        row[index] = Maze.UNKNOWN;
+                        row[index] = Maze.SPACE;
                         break;
                     case 'S':
                         row[index] = Maze.START;

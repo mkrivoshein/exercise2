@@ -35,7 +35,7 @@ public class MazeParserTest {
     @Test
     public void parseMazeWithMultipleEnds() {
         try {
-            mazeParser.parseMaze(TestMazes.mazeWithMultipleEnds());
+            mazeParser.parseMaze(TestMazes.mazeWithMultipleEndsText());
             fail("IllegalArgumentException is expected");
         } catch (IllegalArgumentException exception) {
             assertThat(exception.getMessage(), is("Maze must contain 'E' exactly once"));
@@ -45,7 +45,7 @@ public class MazeParserTest {
     @Test
     public void parseMazeWithoutEnd() {
         try {
-            mazeParser.parseMaze(TestMazes.mazeWithoutEnd());
+            mazeParser.parseMaze(TestMazes.mazeWithoutEndText());
             fail("IllegalArgumentException is expected");
         } catch (IllegalArgumentException exception) {
             assertThat(exception.getMessage(), is("Maze must contain 'E' exactly once"));
@@ -55,7 +55,7 @@ public class MazeParserTest {
     @Test
     public void parseMazeWithMultipleStarts() {
         try {
-            mazeParser.parseMaze(TestMazes.mazeWithMultipleStarts());
+            mazeParser.parseMaze(TestMazes.mazeWithMultipleStartsText());
             fail("IllegalArgumentException is expected");
         } catch (IllegalArgumentException exception) {
             assertThat(exception.getMessage(), is("Maze must contain 'S' exactly once"));
@@ -65,7 +65,7 @@ public class MazeParserTest {
     @Test
     public void parseMazeWithoutStart() {
         try {
-            mazeParser.parseMaze(TestMazes.mazeWithoutStart());
+            mazeParser.parseMaze(TestMazes.mazeWithoutStartText());
             fail("IllegalArgumentException is expected");
         } catch (IllegalArgumentException exception) {
             assertThat(exception.getMessage(), is("Maze must contain 'S' exactly once"));

@@ -1,6 +1,5 @@
 package com.mikkri.mazecrawler.model;
 
-import com.mikkri.mazecrawler.MazeParser;
 import org.junit.Test;
 
 import static com.mikkri.mazecrawler.TestMazes.SIMPLE_MAZE;
@@ -19,8 +18,8 @@ public class MazeTest {
 
     @Test
     public void compareTwoInstancesOfTheSameMaze() {
-        Maze maze1 = new MazeParser().parseMaze(unsolvableMaze());
-        Maze maze2 = new MazeParser().parseMaze(unsolvableMaze());
+        Maze maze1 = unsolvableMaze();
+        Maze maze2 = unsolvableMaze();
 
         assertEquals(maze1, maze2);
     }
@@ -37,13 +36,13 @@ public class MazeTest {
 
     @Test
     public void getValueTest() {
-        Maze maze = new MazeParser().parseMaze(unsolvableMaze());
+        Maze maze = unsolvableMaze();
         assertThat(maze.getValue(0, 0), is(Maze.WALL));
     }
 
     @Test
     public void setValueTest() {
-        Maze maze = new MazeParser().parseMaze(unsolvableMaze());
+        Maze maze = unsolvableMaze();
 
         maze.setValue(1, 2, '.');
 
@@ -52,7 +51,7 @@ public class MazeTest {
 
     @Test
     public void copyOfMakesDeepCopyOfMazeData() throws CloneNotSupportedException {
-        Maze maze1 = new MazeParser().parseMaze(unsolvableMaze());
+        Maze maze1 = unsolvableMaze();
         char originalValue = maze1.getValue(1, 1);
 
         Maze maze2 = Maze.copyOf(maze1);

@@ -84,8 +84,13 @@ public class Maze {
         data[y][x] = value;
     }
 
+    /**
+     * Method checks if (x,y) is a part of the maze. It doesn't check if (x,y) is a wall or any other location
+     * with special meaning
+     * @return <code>true</code> if (x,y) is within boundaries of the maze
+     */
     public boolean isValidLocation(int x, int y) {
-        return true;
+        return y >= 0 && x >= 0 && y < data.length && x < data[y].length;
     }
 
     public int rowCount() {
